@@ -1,0 +1,36 @@
+{
+  "_comment": "Формат журнала tanks_sem/tanks_cond. Регулярки сняты с исходника tanks_sem.c (write_header, dump_field_state, apply_shots, apply_deaths, apply_moves, write_summary). confirmed=true ставится только после проверки на реальном логе.",
+  "confirmed": true,
+  "position_units": "chars",
+  "tank_w": 11,
+  "tank_h": 5,
+  "cell_w": 11,
+  "cell_h": 5,
+  "los_blocks_tanks": true,
+  "end_reason_map": {
+    "normal": "destroyed",
+    "limit": "limit",
+    "signal": "interrupted"
+  },
+  "regex": {
+    "seed": "(?:^# seed=|; seed: )(?P<seed>\\d+)",
+    "field": "^# seed=\\d+ rows=(?P<rows>\\d+) cols=(?P<cols>\\d+)",
+    "obstacle_line": "^# препятствия ",
+    "obstacle": "\\[(?P<row>\\d+),(?P<col>\\d+)\\]",
+    "team_size": "^# команда (?P<team>[AB]): .*?, (?P<count>\\d+) танк",
+    "snapshot": "^\\[T(?P<tick>\\d+)\\] (?:начальная расстановка|состояние поля после такта): в строю",
+    "position": "^    (?P<id>(?P<team>[AB])\\d+) \\S+\\s+\\(\\s*(?P<x>-?\\d+),\\s*(?P<y>-?\\d+)\\)",
+    "shot": "^\\[T(?P<tick>\\d+)\\] выстрел: (?P<shooter>[AB]\\d+) ",
+    "hit": "^\\[T(?P<tick>\\d+)\\] попадание: (?P<shooter>[AB]\\d+) \\S+ -> (?P<target>[AB]\\d+) ",
+    "miss": "^\\[T(?P<tick>\\d+)\\] промах: ",
+    "damage": "^\\[T(?P<tick>\\d+)\\] повреждение: (?P<id>[AB]\\d+) \\S+ -(?P<dmg>\\d+) HP \\((?P<before>-?\\d+) -> (?P<after>-?\\d+)\\)",
+    "destroyed": "^\\[T(?P<tick>\\d+)\\] уничтожение: (?P<id>(?P<team>[AB])\\d+) ",
+    "action": "^\\[T(?P<tick>\\d+)\\] (?:наблюдение|решение|выстрел|наведение|смена позиции|поворот|позиция|конфликт клеток): (?P<id>[AB]\\d+) ",
+    "violation": "НАРУШЕНИЕ ИНВАРИАНТА",
+    "summary_marker": "^=== ИТОГИ БОЯ ===",
+    "summary_alive": "^Команда (?P<team>[AB]): в строю (?P<alive>\\d+)/\\d+",
+    "summary_ticks": "^Сыграно тактов: (?P<ticks>\\d+)",
+    "end_reason": "^Причина завершения: (?P<reason>\\w+)",
+    "late_action": "^\\[T(?P<tick>\\d+)\\] (?:наведение|смена позиции|поворот|позиция|конфликт клеток): (?P<id>[AB]\\d+) "
+  }
+}
